@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ────────────────────────────────────────────────────────────
+   زبان طراحی: «شیشه‌ی مایع» iOS در حالت تیره
+   والپیپر زنده ← متریال‌های شیشه‌ای (نازک/ضخیم) ← کنترل‌های کپسولی
+   ──────────────────────────────────────────────────────────── */
+@layer base {
+  html { background: #020309; color-scheme: dark; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-night-900 font-sans text-ink antialiased; min-height: 100dvh; overflow-x: clip; letter-spacing: -0.01em; }
+  ::selection { background: rgba(10,132,255,.55); color: #fff; }
+  input, textarea, select { font-size: 16px; } /* جلوگیری از زوم خودکار iOS */
+  @media (min-width: 640px) { input, textarea, select { font-size: 15px; } }
+  :focus-visible { outline: 2px solid #0A84FF; outline-offset: 2px; }
+  .ltr { direction: ltr; unicode-bidi: isolate; }
+}
+
+@layer components {
+  /* متریال نازک: کارت‌ها و سطوح روی والپیپر */
+  .glass {
+    background: linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.035));
+    border: 1px solid rgba(255,255,255,.11);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(255,255,255,.03), 0 18px 40px -24px rgba(0,0,0,.7);
+    backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%);
+  }
+  /* متریال ضخیم: منوها، شیت‌ها، دیالوگ‌ها */
+  .glass-strong {
+    background: rgba(30,31,40,.72);
+    border: 1px solid rgba(255,255,255,.13);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 40px 90px -30px rgba(0,0,0,.85);
+    backdrop-filter: blur(44px) saturate(190%); -webkit-backdrop-filter: blur(44px) saturate(190%);
+  }
+  /* شیشه‌ی مایع: لبه‌ی براق کپسول‌ها (هدر شناور، تب‌بار) */
+  .liquid {
+    position: relative; isolation: isolate;
+    background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.28), inset 0 -1px 1px rgba(255,255,255,.06), 0 14px 40px -14px rgba(0,0,0,.75);
+    backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
+  }
+  .liquid::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: -1;
+    background: linear-gradient(135deg, rgba(255,255,255,.5), rgba(255,255,255,.06) 35%, rgba(255,255,255,.04) 65%, rgba(255,255,255,.32));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  .math { font-family: "STIX Two Text", Georgia, serif; direction: ltr; unicode-bidi: isolate; }
+  .prose-fa p { @apply mb-4 leading-8 text-ink-soft; }
+
+  /* سگمنت/تب کپسولی */
+  .tab { @apply whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition hover:text-ink; }
+  .tab-active { @apply bg-white/[0.14] text-ink; box-shadow: inset 0 1px 0 rgba(255,255,255,.2); }
+  .segmented { @apply no-scrollbar flex max-w-full overflow-x-auto rounded-full p-[3px]; background: rgba(118,118,128,.24); }
+  .segmented-item { @apply min-w-fit flex-1 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-ink-soft transition sm:text-sm; }
+  .segmented-on { @apply text-ink; background: rgba(255,255,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 3px 10px rgba(0,0,0,.25); }
+
+  /* فهرست گروه‌بندی‌شده به سبک «تنظیمات» آیفون */
+  .ios-group { @apply glass overflow-hidden rounded-ios; }
+  .ios-row { @apply relative flex min-h-[52px] items-center gap-3 px-4 py-2.5 text-ink; }
+  .ios-row + .ios-row::before, .ios-row + * > .ios-row::before { content: ""; position: absolute; top: 0; inset-inline-start: 16px; inset-inline-end: 0; height: 1px; background: rgba(255,255,255,.09); }
+  .ios-row-icon + .ios-row-icon::before { inset-inline-start: 58px; }
+  .ios-row-tap { @apply cursor-pointer transition-colors hover:bg-white/[0.05] active:bg-white/[0.1]; }
+  .ios-tile { @apply grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[8px] text-white; box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 6px rgba(0,0,0,.25); }
+
+  .table-fa { @apply w-full text-right text-sm; }
+  .table-fa th { @apply border-b border-white/10 px-3 py-3 font-semibold text-ink-mute; }
+  .table-fa td { @apply border-b border-white/5 px-3 py-3 align-top; }
+}
+
+/* رنگ آیکون‌ها (بیرون از layer تا با نام پویا حذف نشوند) */
+.tile-blue { background: linear-gradient(180deg, #3D9BFF, #0A6CFF); }
+.tile-green { background: linear-gradient(180deg, #4BE07A, #1FB54B); }
+.tile-orange { background: linear-gradient(180deg, #FFB340, #FF8A00); }
+.tile-red { background: linear-gradient(180deg, #FF6A5F, #FF2D2D); }
+.tile-pink { background: linear-gradient(180deg, #FF5E86, #F0244E); }
+.tile-indigo { background: linear-gradient(180deg, #7D7BFF, #4B48DB); }
+.tile-purple { background: linear-gradient(180deg, #D27BFF, #A43DE0); }
+.tile-teal { background: linear-gradient(180deg, #5FDCF0, #1EAFCB); }
+.tile-yellow { background: linear-gradient(180deg, #FFE04D, #FFB800); color: #3B2A00; }
+.tile-gray { background: linear-gradient(180deg, #A1A1A8, #6E6E76); }
+
+/* والپیپر زنده (مشابه والپیپرهای iOS) */
+.aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(1100px 700px at 80% -10%, #142a6b 0%, transparent 60%), radial-gradient(900px 700px at 0% 100%, #2a0f4d 0%, transparent 60%), #03040b; }
+.aurora i { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; will-change: transform; }
+.aurora .b1 { width: 50vw; height: 50vw; right: -12vw; top: -14vw; background: #0A84FF; animation: drift 24s ease-in-out infinite alternate; }
+.aurora .b2 { width: 42vw; height: 42vw; left: -14vw; top: 28vh; background: #6C3BFF; opacity: .42; animation: drift 30s ease-in-out infinite alternate-reverse; }
+.aurora .b3 { width: 34vw; height: 34vw; right: 18vw; bottom: -16vw; background: #FF375F; opacity: .26; animation: drift 27s ease-in-out infinite alternate; }
+.aurora::after { content: ""; position: absolute; inset: 0; background: radial-gradient(transparent 55%, rgba(0,0,0,.45)); }
+@keyframes drift { to { transform: translate3d(5vw, 4vh, 0) scale(1.1); } }
+
+@keyframes rise { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: none; } }
+.animate-rise { animation: rise .42s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@media (max-width: 639px) { .sheet-in { animation: sheet-up .45s cubic-bezier(.2,.9,.25,1) both; } }
+@media (min-width: 640px) { .sheet-in { animation: rise .35s cubic-bezier(.2,.8,.2,1) both; } }
+/* Dynamic Island: اعلان‌ها از کپسول بالای صفحه باز می‌شوند */
+@keyframes island { 0% { opacity: 0; transform: scale(.4, .6); } 60% { opacity: 1; transform: scale(1.03, 1); } 100% { transform: none; } }
+.island-in { animation: island .55s cubic-bezier(.2,.9,.25,1.1) both; transform-origin: top center; }
+@keyframes shimmer { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+.bar-shimmer::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); animation: shimmer 1.6s linear infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 60s linear infinite; transform-origin: center; transform-box: fill-box; }
+.reveal { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { scrollbar-width: none; }
+.safe-bottom { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+video::-internal-media-controls-download-button { display: none; }
